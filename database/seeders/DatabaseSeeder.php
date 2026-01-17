@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
             SaleReturnSeeder::class,
             PurchaseSeeder::class,
             PurchaseReturnSeeder::class,
+            SaaSSeeder::class, // SaaS demo data with Super Admin, Plans, and Demo Stores
             ShelfSeeder::class,
         ]);
     }

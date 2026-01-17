@@ -77,6 +77,8 @@ class Kernel extends HttpKernel
         'users' =>  \App\Http\Middleware\UserMiddleware::class,
         'expired' => \App\Http\Middleware\ExpiredMiddleware::class,
         'affiliator' =>  \App\Http\Middleware\AffiliatorMiddleware::class,
-        'check.permission' => \App\Http\Middleware\CheckPermission::class
-    ];
+        'check.permission' => \App\Http\Middleware\CheckPermission::class,
+        'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+    };
+}
 }

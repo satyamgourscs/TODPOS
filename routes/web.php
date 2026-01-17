@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 
+// Include SaaS routes
+require_once __DIR__ . '/saas.php';
+
 Route::get('/', [Web\WebController::class, 'index'])->name('home');
 Route::resource('blogs', Web\BlogController::class)->only('index', 'show', 'store');
 Route::get('/about-us', [Web\AboutController::class, 'index'])->name('about.index');
