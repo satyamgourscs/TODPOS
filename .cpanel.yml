@@ -1,4 +1,4 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/afpqeygf/public_html/
-    - /bin/rsync -av --delete ./ $DEPLOYPATH
+    - /bin/cp -R . /home/afpqeygf/public_html
+
