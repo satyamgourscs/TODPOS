@@ -1,6 +1,4 @@
----
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/afpqeygf/public_html/
-    - /bin/cp index.html * $DEPLOYPATH
+    - /bin/cp -R ./* /home/afpqeygf/public_html/
    
