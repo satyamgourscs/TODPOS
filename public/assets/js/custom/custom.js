@@ -534,7 +534,8 @@ $(document).ready(function () {
 // Choices select js start
 
 $(document).ready(function () {
-    const choicesMap = new Map();
+    // Make choicesMap globally accessible
+    window.choicesMap = window.choicesMap || new Map();
 
     $(".choices-select").each(function () {
         const select = this;
@@ -543,7 +544,7 @@ $(document).ready(function () {
             itemSelectText: "",
             shouldSort: false,
         });
-        choicesMap.set(select.id, choicesInstance);
+        window.choicesMap.set(select.id, choicesInstance);
     });
 
     $(document).on("keydown", ".choices__input--cloned", function (e) {

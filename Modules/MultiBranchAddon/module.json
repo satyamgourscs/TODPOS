@@ -1,0 +1,12 @@
+{
+    "name": "MultiBranchAddon",
+    "alias": "multibranchaddon",
+    "version": "1.0",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MultiBranchAddon\\App\\Providers\\MultiBranchAddonServiceProvider"
+    ],
+    "files": []
+}

@@ -19,7 +19,7 @@
             @endusercan
 
             @usercanany(['sales.read', 'sales.create'])
-            <li class="dropdown {{ Request::routeIs('business.sales.index', 'business.sales.create', 'business.sales.edit', 'business.sale-returns.create', 'business.sale-returns.index','business.sales.inventory') ? 'active' : '' }}">
+            <li class="dropdown {{ Request::routeIs('business.sales.index', 'business.sales.create', 'business.sales.edit', 'business.sale-returns.create', 'business.sale-returns.index','business.sales.inventory', 'business.sales-invoices.*', 'business.quotations.*', 'business.payment-in.*', 'business.credit-notes.*', 'business.delivery-challans.*', 'business.proforma-invoices.*') ? 'active' : '' }}">
                 <a href="#">
                     <span class="sidebar-icon">
                         <img src="{{ asset('assets/images/sidebar/sales.svg') }}">
@@ -34,6 +34,58 @@
                     </li>
                     @endusercan
 
+                    @usercan('sales.read')
+                    <li>
+                        <a class="{{ Request::routeIs('business.sales-invoices.*') ? 'active' : '' }}" href="{{ route('business.sales-invoices.index') }}">
+                            {{ __('Sales Invoices') }}
+                        </a>
+                    </li>
+                    @endusercan
+
+                    @usercan('sales.read')
+                    <li>
+                        <a class="{{ Request::routeIs('business.quotations.*') ? 'active' : '' }}" href="{{ route('business.quotations.index') }}">
+                            {{ __('Quotation / Estimate') }}
+                        </a>
+                    </li>
+                    @endusercan
+
+                    @usercan('sales.read')
+                    <li>
+                        <a class="{{ Request::routeIs('business.payment-in.*') ? 'active' : '' }}" href="{{ route('business.payment-in.index') }}">
+                            {{ __('Payment In') }}
+                        </a>
+                    </li>
+                    @endusercan
+
+                    @usercan('sale-returns.read')
+                    <li><a class="{{ Request::routeIs('business.sale-returns.index') ? 'active' : '' }}" href="{{ route('business.sale-returns.index') }}">{{ __('Sales Return') }}</a></li>
+                    @endusercan
+
+                    @usercan('sales.read')
+                    <li>
+                        <a class="{{ Request::routeIs('business.credit-notes.*') ? 'active' : '' }}" href="{{ route('business.credit-notes.index') }}">
+                            {{ __('Credit Note') }}
+                        </a>
+                    </li>
+                    @endusercan
+
+                    @usercan('sales.read')
+                    <li>
+                        <a class="{{ Request::routeIs('business.delivery-challans.*') ? 'active' : '' }}" href="{{ route('business.delivery-challans.index') }}">
+                            {{ __('Delivery Challan') }}
+                        </a>
+                    </li>
+                    @endusercan
+
+                    @usercan('sales.read')
+                    <li>
+                        <a class="{{ Request::routeIs('business.proforma-invoices.*') ? 'active' : '' }}" href="{{ route('business.proforma-invoices.index') }}">
+                            {{ __('Proforma Invoice') }}
+                        </a>
+                    </li>
+                    @endusercan
+
                     @usercan('inventory.create')
                     <li>
                         <a class="{{ Request::routeIs('business.sales.inventory') ? 'active' : '' }}" href="{{ route('business.sales.inventory') }}">
@@ -44,10 +96,6 @@
 
                     @usercan('sales.read')
                     <li><a class="{{ Request::routeIs('business.sales.index', 'business.sale-returns.create') ? 'active' : '' }}" href="{{ route('business.sales.index') }}">{{ __('Sales List') }}</a></li>
-                    @endusercan
-
-                    @usercan('sale-returns.read')
-                    <li><a class="{{ Request::routeIs('business.sale-returns.index') ? 'active' : '' }}" href="{{ route('business.sale-returns.index') }}">{{ __('Sales Return') }}</a></li>
                     @endusercan
                 </ul>
             </li>

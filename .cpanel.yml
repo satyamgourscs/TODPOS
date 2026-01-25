@@ -1,4 +1,0 @@
-deployment:
-  tasks:
-    - /bin/cp -R ./* /home/afpqeygf/public_html/
-   
