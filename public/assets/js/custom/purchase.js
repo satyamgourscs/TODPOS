@@ -303,7 +303,7 @@ $("#discount_amount, #receive_amount, #shipping_charge").on(
     }
 );
 
-// vat calculation
+// gst calculation
 $(".vat_select").on("change", function () {
     let vatRate = parseFloat($(this).find(":selected").data("rate")) || 0;
     let subtotal = getNumericValue($("#sub_total").text()) || 0;
@@ -332,13 +332,13 @@ function calTotalAmount() {
 
     $("#sub_total").text(currencyFormat(subtotal));
 
-    // VAT
+    // GST
     let vat_rate =
         parseFloat($(".vat_select option:selected").data("rate")) || 0;
     let vat_amount = (subtotal * vat_rate) / 100;
     $("#vat_amount").val(vat_amount.toFixed(2));
 
-    // Subtotal with VAT
+    // Subtotal with GST
     let subtotal_with_vat = subtotal + vat_amount;
 
     // Discount
@@ -350,14 +350,14 @@ function calTotalAmount() {
 
         if (discount_amount > subtotal_with_vat) {
             toastr.error(
-                "Discount cannot be more than 100% of the amount after VAT!"
+                "Discount cannot be more than 100% of the amount after GST!"
             );
             discount_amount = subtotal_with_vat;
             $("#discount_amount").val(100);
         }
     } else {
         if (discount_amount > subtotal_with_vat) {
-            toastr.error("Discount cannot be more than the amount after VAT!");
+            toastr.error("Discount cannot be more than the amount after GST!");
             discount_amount = subtotal_with_vat;
             $("#discount_amount").val(discount_amount);
         }

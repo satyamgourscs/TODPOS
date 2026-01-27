@@ -1,6 +1,6 @@
 {
-    "MultiBranchAddon": true,
-    "WarehouseAddon": true,
+    "documantation": true,
     "Business": true,
-    "ThermalPrinterAddon": true
+    "WarehouseAddon": true,
+    "MultiBranchAddon": true
 }

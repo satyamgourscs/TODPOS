@@ -231,7 +231,7 @@ class DemoMode
 
             if (in_array(Route::currentRouteName(), $adminDisabledRoutes)) {
                 return response()->json(['message' => 'This action is disabled in demo mode.'], 499);
-            } elseif (auth()->check() && auth()->user()->email == 'shopowner@acnoo.com' && in_array(Route::currentRouteName(), $businessDisabledRoutes)) {
+            } elseif (auth()->check() && auth()->user()->email == 'shopowner@tryonedigital.com' && in_array(Route::currentRouteName(), $businessDisabledRoutes)) {
                 return response()->json(['message' => 'This action is disabled in demo mode. Please sign up for your own account for full access.'], 499);
             }
         }

@@ -140,7 +140,7 @@
                         <th class="text-start">{{ __('Discount Amount') }}</th>
                         <th class="text-start">{{ __('Paid Amount') }}</th>
                         <th class="text-start">{{ __('Due Amount') }}</th>
-                        <th class="text-start">{{ __('Vat Amount') }}</th>
+                        <th class="text-start">{{ __('Gst Amount') }}</th>
                         <th class="text-start">{{ __('Payment Type') }}</th>
                         <th class="text-start">{{ __('Sale Date') }}</th>
                     </tr>

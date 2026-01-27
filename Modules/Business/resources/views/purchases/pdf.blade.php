@@ -134,7 +134,7 @@
                                     <td class="text-start ">: {{ $purchase->user->name ?? '' }}</td>
                                 </tr>
                                 <tr class="in-table-row-bottom">
-                                    <td class="text-end">{{ __('Vat') }}</td>
+                                    <td class="text-end">{{ __('Gst') }}</td>
                                     <td class="text-end">:</td>
                                     <td class="text-end">
                                         {{ currency_format($purchase->vat_amount, currency: business_currency()) }}</td>
@@ -340,7 +340,7 @@
                                     </td>
                                 </tr>
                                 <tr class="in-table-row-bottom">
-                                    <td class="text-end">{{ __('Vat') }}</td>
+                                    <td class="text-end">{{ __('Gst') }}</td>
                                     <td class="text-end">:</td>
                                     <td class="text-end">
                                         {{ currency_format($purchase->vat_amount, currency: business_currency()) }}

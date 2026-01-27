@@ -27,7 +27,7 @@ class ExpiredMiddleware
                 'business.sales.delete-all',
                 'business.sales.mail',
                 'business.sales.store.customer',
-                'business.sales.inventory',
+                'business.sales.create-invoice',
                 'business.sale-returns.store',
                 'business.purchases.store',
                 'business.purchases.update',

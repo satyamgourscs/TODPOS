@@ -253,6 +253,7 @@ $(".customer-select").on("change", function () {
     // Check if the customer value is "guest"
     if ($customer_id === "guest") {
         $(".guest_phone").removeClass("d-none");
+        $("#customer_phone").prop("required", true);
 
         // Reset product prices to their default (Retailer prices)
         $(".single-product").each(function () {
@@ -262,6 +263,7 @@ $(".customer-select").on("change", function () {
     } else {
         $(".guest_phone").addClass("d-none");
         $(".guest_phone input").val("");
+        $("#customer_phone").prop("required", false);
         // Update product prices based on the selected customer type
         if (customer_type) {
             let url = $("#get_product").val();
@@ -292,7 +294,7 @@ $("#discount_amount, #receive_amount, #shipping_charge").on(
     }
 );
 
-// vat calculation
+// gst calculation
 $(".vat_select").on("change", function () {
     let vatRate = parseFloat($(this).find(":selected").data("rate")) || 0;
     let subtotal = getNumericValue($("#sub_total").text()) || 0;
@@ -322,13 +324,13 @@ function calTotalAmount() {
 
     $("#sub_total").text(currencyFormat(subtotal));
 
-    // VAT
+    // GST
     let vat_rate =
         parseFloat($(".vat_select option:selected").data("rate")) || 0;
     let vat_amount = (subtotal * vat_rate) / 100;
     $("#vat_amount").val(vat_amount.toFixed(2));
 
-    // Subtotal with VAT
+    // Subtotal with GST
     let subtotal_with_vat = subtotal + vat_amount;
 
     // Discount
@@ -805,6 +807,7 @@ $(".inventory-customer-select").on("change", function () {
 
     if ($customer_id === "guest") {
         $(".guest_phone").removeClass("d-none");
+        $(".guest_phone #customer_phone").prop("required", true);
 
         // show default (retail) price from batch data
         $(".single-product").each(function () {
@@ -820,6 +823,7 @@ $(".inventory-customer-select").on("change", function () {
     } else if ($customer_id) {
         $(".guest_phone").addClass("d-none");
         $(".guest_phone input").val("");
+        $(".guest_phone #customer_phone").prop("required", false);
 
         if (customer_type) {
             let url = $("#get_stock_prices").val();
@@ -1063,3 +1067,119 @@ $productSearch.on("keyup", function () {
 });
 
 /** INVENTORY SALE END **/
+
+// Function to add customer to dropdown and select it (global function)
+window.addCustomerToDropdown = function(customer) {
+    console.log('Adding customer to dropdown:', customer);
+    
+    // Add customer to all customer dropdowns
+    $('.customer-select, .inventory-customer-select').each(function() {
+        let $select = $(this);
+        let selectElement = this;
+        
+        // Check if customer already exists
+        if ($select.find('option[value="' + customer.id + '"]').length > 0) {
+            console.log('Customer already exists in dropdown');
+            // Just select it
+            selectCustomerInDropdown($select, selectElement, customer.id);
+            return;
+        }
+        
+        // Create new option element
+        let $option = $('<option>', {
+            value: customer.id,
+            text: customer.option_text || (customer.name + '(' + customer.type + (customer.due_text || '') + ') ' + (customer.phone || '')),
+            'data-type': customer.type,
+            'data-phone': customer.phone || ''
+        });
+        
+        // Insert before guest option, or at the end if guest option doesn't exist
+        let $guestOption = $select.find('option.guest-option');
+        if ($guestOption.length > 0) {
+            $guestOption.before($option);
+        } else {
+            $select.append($option);
+        }
+        
+        // For Choices.js dropdowns, we need to refresh the Choices instance
+        if ($select.hasClass('choices-select')) {
+            // Destroy and recreate Choices to include the new option
+            if (selectElement.choices) {
+                selectElement.choices.destroy();
+            }
+            
+            // Recreate Choices instance
+            let choicesInstance = new Choices(selectElement, {
+                searchEnabled: true,
+                itemSelectText: "",
+                shouldSort: false,
+            });
+            
+            // Select the customer after a short delay
+            setTimeout(function() {
+                try {
+                    choicesInstance.setChoiceByValue(customer.id.toString());
+                    $select.trigger('change');
+                    console.log('Customer selected in Choices dropdown');
+                } catch (e) {
+                    console.error('Error selecting in Choices:', e);
+                    $select.val(customer.id).trigger('change');
+                }
+            }, 100);
+        } else {
+            // For regular select dropdowns, just set the value
+            $select.val(customer.id).trigger('change');
+            console.log('Customer selected in regular dropdown');
+        }
+    });
+};
+
+// Helper function to select customer in dropdown
+function selectCustomerInDropdown($select, selectElement, customerId) {
+    if ($select.hasClass('choices-select')) {
+        if (selectElement.choices) {
+            try {
+                selectElement.choices.setChoiceByValue(customerId.toString());
+                $select.trigger('change');
+            } catch (e) {
+                $select.val(customerId).trigger('change');
+            }
+        } else {
+            $select.val(customerId).trigger('change');
+        }
+    } else {
+        $select.val(customerId).trigger('change');
+    }
+}
+
+// Phone number validation for customer phone field
+$(document).on("input", "#customer_phone", function () {
+    let phone = $(this).val().replace(/[^0-9]/g, "");
+    $(this).val(phone);
+    
+    if (phone.length > 10) {
+        $(this).val(phone.substring(0, 10));
+    }
+});
+
+// Validate phone number before form submission
+$(document).on("submit", ".ajaxform", function (e) {
+    let $customerSelect = $(this).find(".customer-select, .inventory-customer-select");
+    let customerId = $customerSelect.val();
+    let $customerPhone = $(this).find("#customer_phone");
+    
+    // If guest is selected, validate phone number
+    if (customerId === "guest") {
+        let phone = $customerPhone.val() ? $customerPhone.val().replace(/[^0-9]/g, "") : "";
+        
+        if (!phone || phone.length !== 10) {
+            e.preventDefault();
+            toastr.error("Please enter a valid 10-digit phone number for guest customer.");
+            $customerPhone.focus();
+            return false;
+        }
+        
+        // Update the value to ensure it's clean
+        $customerPhone.val(phone);
+    }
+});

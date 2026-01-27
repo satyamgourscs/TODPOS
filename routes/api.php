@@ -11,9 +11,9 @@ Route::prefix('v1')->group(function () {
     Route::post('/resend-otp', [Api\Auth\AuthController::class, 'resendOtp']);
     Route::get('/otp-settings', [Api\Auth\AuthController::class, 'otpSettings']);
 
-    Route::post('/send-reset-code', [Api\Auth\AcnooForgotPasswordController::class, 'sendResetCode']);
-    Route::post('/verify-reset-code', [Api\Auth\AcnooForgotPasswordController::class, 'verifyResetCode']);
-    Route::post('/password-reset', [Api\Auth\AcnooForgotPasswordController::class, 'resetPassword']);
+    Route::post('/send-reset-code', [Api\Auth\TryonedigitalForgotPasswordController::class, 'sendResetCode']);
+    Route::post('/verify-reset-code', [Api\Auth\TryonedigitalForgotPasswordController::class, 'verifyResetCode']);
+    Route::post('/password-reset', [Api\Auth\TryonedigitalForgotPasswordController::class, 'resetPassword']);
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('update-expire-date', [Api\BusinessController::class, 'updateExpireDate']);
@@ -22,32 +22,32 @@ Route::prefix('v1')->group(function () {
         Route::get('dashboard', [Api\StatisticsController::class, 'dashboard']);
 
         Route::apiResource('parties', Api\PartyController::class);
-        Route::apiResource('users', Api\AcnooUserController::class)->except('show');
+        Route::apiResource('users', Api\TryonedigitalUserController::class)->except('show');
         Route::apiResource('units', Api\UnitController::class)->except('show');
-        Route::apiResource('brands', Api\AcnooBrandController::class)->except('show');
-        Route::apiResource('categories', Api\AcnooCategoryController::class)->except('show');
-        Route::apiResource('products', Api\AcnooProductController::class);
+        Route::apiResource('brands', Api\TryonedigitalBrandController::class)->except('show');
+        Route::apiResource('categories', Api\TryonedigitalCategoryController::class)->except('show');
+        Route::apiResource('products', Api\TryonedigitalProductController::class);
         Route::apiResource('stocks', Api\StockController::class)->except('index', 'show');
         Route::apiResource('business', Api\BusinessController::class)->only('index', 'store', 'update');
         Route::apiResource('business-categories', Api\BusinessCategoryController::class)->only('index');
         Route::apiResource('purchase', Api\PurchaseController::class)->except('show');
-        Route::apiResource('sales', Api\AcnooSaleController::class)->except('show');
+        Route::apiResource('sales', Api\TryonedigitalSaleController::class)->except('show');
         Route::apiResource('sales-return', Api\SaleReturnController::class)->only('index', 'store', 'show');
         Route::apiResource('purchases-return', Api\PurchaseReturnController::class)->only('index', 'store', 'show');
-        Route::apiResource('invoices', Api\AcnooInvoiceController::class)->only('index');
-        Route::apiResource('dues', Api\AcnooDueController::class)->only('index', 'store');
+        Route::apiResource('invoices', Api\TryonedigitalInvoiceController::class)->only('index');
+        Route::apiResource('dues', Api\TryonedigitalDueController::class)->only('index', 'store');
         Route::apiResource('expense-categories', Api\ExpenseCategoryController::class)->except('show');
-        Route::apiResource('expenses', Api\AcnooExpenseController::class)->only('index', 'store');
-        Route::apiResource('income-categories', Api\AcnooIncomeCategoryController::class)->except('show');
-        Route::apiResource('incomes', Api\AcnooIncomeController::class)->only('index', 'store');
+        Route::apiResource('expenses', Api\TryonedigitalExpenseController::class)->only('index', 'store');
+        Route::apiResource('income-categories', Api\TryonedigitalIncomeCategoryController::class)->except('show');
+        Route::apiResource('incomes', Api\TryonedigitalIncomeController::class)->only('index', 'store');
 
-        Route::apiResource('banners', Api\AcnooBannerController::class)->only('index');
-        Route::apiResource('lang', Api\AcnooLanguageController::class)->only('index', 'store');
-        Route::apiResource('profile', Api\AcnooProfileController::class)->only('index', 'store');
-        Route::apiResource('plans', Api\AcnooSubscriptionsController::class)->only('index');
-        Route::apiResource('subscribes', Api\AcnooSubscribesController::class)->only('index');
-        Route::apiResource('currencies', Api\AcnooCurrencyController::class)->only('index', 'show');
-        Route::apiResource('vats', Api\AcnooVatController::class)->except('show');
+        Route::apiResource('banners', Api\TryonedigitalBannerController::class)->only('index');
+        Route::apiResource('lang', Api\TryonedigitalLanguageController::class)->only('index', 'store');
+        Route::apiResource('profile', Api\TryonedigitalProfileController::class)->only('index', 'store');
+        Route::apiResource('plans', Api\TryonedigitalSubscriptionsController::class)->only('index');
+        Route::apiResource('subscribes', Api\TryonedigitalSubscribesController::class)->only('index');
+        Route::apiResource('currencies', Api\TryonedigitalCurrencyController::class)->only('index', 'show');
+        Route::apiResource('vats', Api\TryonedigitalVatController::class)->except('show');
         Route::apiResource('payment-types', Api\PaymentTypeController::class)->except('show');
         Route::apiResource('warehouses', Api\WarehouseController::class)->except('show');
         Route::apiResource('product-models', Api\ProducModelController::class)->except('show');
@@ -56,9 +56,9 @@ Route::prefix('v1')->group(function () {
         Route::get('business-settings', [Api\BusinessSettingController::class, 'index']);
 
         Route::post('bulk-uploads', [Api\BulkUploadControler::class, 'store']);
-        Route::post('change-password', [Api\AcnooProfileController::class, 'changePassword'])->name('api.change-password');
+        Route::post('change-password', [Api\TryonedigitalProfileController::class, 'changePassword'])->name('api.change-password');
 
-        Route::get('new-invoice', [Api\AcnooInvoiceController::class, 'newInvoice']);
+        Route::get('new-invoice', [Api\TryonedigitalInvoiceController::class, 'newInvoice']);
 
         Route::get('invoice-settings', [Api\BusinessInvoiceSettingController::class, 'index']);
         Route::post('/invoice-settings/update', [Api\BusinessInvoiceSettingController::class, 'updateInvoice'])->name('invoice.update');

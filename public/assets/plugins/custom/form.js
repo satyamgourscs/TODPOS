@@ -52,7 +52,8 @@ let $ajaxform_instant_reload = $(".ajaxform_instant_reload");
 $ajaxform_instant_reload.initFormValidation(),
     $(document).on("submit", ".ajaxform_instant_reload", function (e) {
         e.preventDefault();
-        let t = $(this).find(".submit-btn"),
+        let $form = $(this);
+        let t = $form.find(".submit-btn"),
             a = t.html();
         $ajaxform_instant_reload.valid() &&
             $.ajax({
@@ -73,8 +74,24 @@ $ajaxform_instant_reload.initFormValidation(),
                     t.html(a).removeClass("disabled").attr("disabled", !1),
                         (window.sessionStorage.hasPreviousMessage = !0),
                         (window.sessionStorage.previousMessage =
-                            e.message ?? null),
-                        e.redirect && (location.href = e.redirect);
+                            e.message ?? null);
+                    
+                    // Handle customer creation - add to dropdown and select
+                    if (e.customer && $form.closest('#customer-create-modal').length) {
+                        // Close modal and reset form
+                        $('#customer-create-modal').modal('hide');
+                        $form[0].reset();
+                        
+                        // Add customer to dropdowns and select it
+                        if (typeof addCustomerToDropdown === 'function') {
+                            addCustomerToDropdown(e.customer);
+                        }
+                        
+                        Notify("success", null, e.message ?? 'Customer created successfully.');
+                        return; // Don't redirect
+                    }
+                    
+                    e.redirect && (location.href = e.redirect);
                 },
                 error: function (e) {
                     t.html(a).removeClass("disabled").attr("disabled", false);

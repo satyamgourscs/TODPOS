@@ -165,7 +165,7 @@
                                         <h6 class="fw-bold" id="sub_total">{{ currency_format(0) }}</h6>
                                     </div>
                                     <div class="row save-amount-container  align-items-center mb-2">
-                                        <h6 class="payment-title col-6">{{ __('Vat') }}</h6>
+                                        <h6 class="payment-title col-6">{{ __('Gst') }}</h6>
                                         <div class="col-6 w-100 d-flex justify-content-between gap-2">
                                             <div class="d-flex d-flex align-items-center gap-2">
                                                 <select name="vat_id" class="form-select vat_select" id='form-ware'>

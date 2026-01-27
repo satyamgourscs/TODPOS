@@ -21,7 +21,7 @@
                                     <label>{{ __('Select Invoice') }}</label>
                                     <div class="gpt-up-down-arrow position-relative">
                                         <select id="invoiceSelect" name="invoiceNumber" class="form-control table-select w-100">
-                                            <option value=""  data-opening-due="{{ $party_opening_due }}" >{{ __('Select an Invoice') }}</option>
+                                            <option value=""  data-opening-due="{{ $total_due_amount }}" >{{ __('Select an Invoice') }}</option>
                                             @if($party->type == "Supplier")
                                             @foreach ($party->purchases_dues as $due)
                                                 <option
@@ -58,17 +58,22 @@
 
                                 <div class="col-lg-6 mb-2">
                                     <label>{{ __('Total Amount') }}</label>
-                                    <input type="number" id="totalAmount" value="{{ $party_opening_due }}" readonly class="form-control">
+                                    <input type="number" id="totalAmount" value="{{ $total_due_amount }}" data-fixed-total="{{ $total_due_amount }}" readonly class="form-control">
                                 </div>
 
                                 <div class="col-lg-6 mb-2">
                                     <label>{{ __('Paid Amount') }}</label>
-                                    <input type="number" name="payDueAmount" id="paidAmount" required class="form-control">
+                                    <div class="input-group">
+                                        <input type="number" name="payDueAmount" id="paidAmount" required class="form-control">
+                                        <button type="button" class="btn btn-outline-secondary" id="payAllBtn" title="{{ __('Pay All Dues') }}">
+                                            {{ __('Pay All') }}
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6 mb-2">
                                     <label>{{ __('Due Amount') }}</label>
-                                    <input type="number" id="dueAmount" value="{{ $party_opening_due }}" readonly class="form-control">
+                                    <input type="number" id="dueAmount" value="{{ $total_due_amount }}" readonly class="form-control">
                                 </div>
 
                                 <div class="col-lg-6 mb-2">

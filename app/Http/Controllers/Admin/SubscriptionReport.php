@@ -15,7 +15,7 @@ class SubscriptionReport extends Controller
         return view('admin.subscribers.index', compact('subscribers'));
     }
 
-    public function acnooFilter(Request $request)
+    public function tryonedigitalFilter(Request $request)
     {
         $subscriberQuery = PlanSubscribe::with(['plan:id,subscriptionName', 'business:id,companyName,business_category_id', 'business.category:id,name']);
 

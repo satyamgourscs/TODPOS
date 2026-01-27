@@ -534,8 +534,7 @@ $(document).ready(function () {
 // Choices select js start
 
 $(document).ready(function () {
-    // Make choicesMap globally accessible
-    window.choicesMap = window.choicesMap || new Map();
+    const choicesMap = new Map();
 
     $(".choices-select").each(function () {
         const select = this;
@@ -544,7 +543,7 @@ $(document).ready(function () {
             itemSelectText: "",
             shouldSort: false,
         });
-        window.choicesMap.set(select.id, choicesInstance);
+        choicesMap.set(select.id, choicesInstance);
     });
 
     $(document).on("keydown", ".choices__input--cloned", function (e) {
@@ -1012,36 +1011,100 @@ $(".create-all-delete").on("click", function (event) {
 // Multidelete End
 
 // Collects Due Start
+// Store the fixed total amount (total of all due invoices) - never changes
+let fixedTotalAmount = parseFloat($("#totalAmount").data("fixed-total")) || parseFloat($("#totalAmount").val()) || 0;
+
+// Ensure Total Amount always shows the fixed total (prevent any changes)
+$("#totalAmount").on("change input", function() {
+    $(this).val(fixedTotalAmount);
+});
+
 $("#invoiceSelect").on("change", function () {
     const selectedOption = $(this).find("option:selected");
-    const dueAmount = selectedOption.data("due-amount");
-    const openingDue = selectedOption.data("opening-due");
+    const invoiceDueAmount = parseFloat(selectedOption.data("due-amount")) || 0;
+    const openingDue = parseFloat(selectedOption.data("opening-due")) || fixedTotalAmount;
 
+    // Always keep Total Amount fixed - never change it
+    $("#totalAmount").val(fixedTotalAmount);
+
+    // Update Due Amount based on selection
     if (!selectedOption.val()) {
-        $("#totalAmount").val(openingDue);
+        // No invoice selected - show total of all dues
         $("#dueAmount").val(openingDue);
     } else {
-        $("#totalAmount").val(dueAmount);
-        $("#dueAmount").val(dueAmount);
+        // Invoice selected - show that invoice's due amount
+        $("#dueAmount").val(invoiceDueAmount);
     }
 
+    // Clear paid amount when invoice changes
+    $("#paidAmount").val("");
+
+    // Recalculate after invoice selection
     calculateDueChange();
 });
+
+// Allow partial payment - update validation message
 
 $("#paidAmount").on("input", function () {
     calculateDueChange();
 });
+
+// Pay All button - fills in the total amount (allows paying full amount)
+$("#payAllBtn").on("click", function() {
+    const fixedTotal = parseFloat($("#totalAmount").data("fixed-total")) || parseFloat($("#totalAmount").val()) || 0;
+    
+    // Fill the Total Amount (user can edit to pay less if needed)
+    if (fixedTotal > 0) {
+        $("#paidAmount").val(fixedTotal);
+        calculateDueChange();
+    } else {
+        toastr.warning("No total amount to pay.");
+    }
+});
+
 function calculateDueChange() {
     const payingAmount = parseFloat($("#paidAmount").val()) || 0;
-    const totalAmount = parseFloat($("#totalAmount").val()) || 0;
+    const currentDueAmount = parseFloat($("#dueAmount").val()) || 0;
+    const totalAmount = parseFloat($("#totalAmount").val()) || fixedTotalAmount || 0;
 
+    // Validate: Paid Amount must be <= Total Amount
     if (payingAmount > totalAmount) {
-        toastr.error("cannot pay more than due.");
+        toastr.error("Paid Amount cannot be greater than Total Amount (" + totalAmount.toFixed(2) + ").");
+        $("#paidAmount").val(totalAmount);
+        // Recalculate with corrected amount
+        const updatedDueAmount = currentDueAmount - totalAmount;
+        $("#dueAmount").val(updatedDueAmount >= 0 ? updatedDueAmount : 0);
+        return;
     }
 
-    const updatedDueAmount = totalAmount - payingAmount;
+    // Validate: Paid Amount cannot exceed current Due Amount
+    if (payingAmount > currentDueAmount) {
+        toastr.error("Cannot pay more than due amount.");
+        $("#paidAmount").val(currentDueAmount);
+        $("#dueAmount").val(0);
+        return;
+    }
+
+    // Allow partial payment - calculate remaining due amount
+    // If no invoice selected, this shows remaining total after payment
+    // If invoice selected, this shows remaining for that invoice
+    const updatedDueAmount = currentDueAmount - payingAmount;
     $("#dueAmount").val(updatedDueAmount >= 0 ? updatedDueAmount : 0);
 }
+
+// Initialize on page load - ensure Total Amount and Due Amount are set correctly
+$(document).ready(function() {
+    if ($("#totalAmount").length) {
+        fixedTotalAmount = parseFloat($("#totalAmount").data("fixed-total")) || parseFloat($("#totalAmount").val()) || 0;
+        $("#totalAmount").val(fixedTotalAmount);
+        
+        // Ensure Due Amount is set to fixed total if no invoice is selected
+        const invoiceSelect = $("#invoiceSelect");
+        if (invoiceSelect.length && (!invoiceSelect.val() || invoiceSelect.val() === "")) {
+            $("#dueAmount").val(fixedTotalAmount);
+        }
+    }
+});
 // Collects Due End
 
 //Subscriber view modal

@@ -8,6 +8,7 @@ use App\Http\Controllers as Web;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', [Web\WebController::class, 'index'])->name('home');
 Route::resource('blogs', Web\BlogController::class)->only('index', 'show', 'store');
@@ -15,9 +16,9 @@ Route::get('/about-us', [Web\AboutController::class, 'index'])->name('about.inde
 Route::get('/plans', [Web\PlanController::class, 'index'])->name('plan.index');
 
 // Business Signup
-Route::get('/get-business-categories', [Web\AcnooBusinessController::class, 'getBusinessCategories'])->name('get-business-categories');
-Route::post('/businesses', [Web\AcnooBusinessController::class, 'store'])->name('business.store');
-Route::post('/verify-code', [Web\AcnooBusinessController::class, 'verifyCode'])->name('business.verify-code');
+Route::get('/get-business-categories', [Web\TryonedigitalBusinessController::class, 'getBusinessCategories'])->name('get-business-categories');
+Route::post('/businesses', [Web\TryonedigitalBusinessController::class, 'store'])->name('business.store');
+Route::post('/verify-code', [Web\TryonedigitalBusinessController::class, 'verifyCode'])->name('business.verify-code');
 
 Route::get('/data-deletion', [Web\DataDeletionController::class, 'index'])->name('term.index');
 Route::get('/terms-conditions', [Web\TermServiceController::class, 'index'])->name('term.index');
@@ -72,65 +73,73 @@ Route::get('/migrate', function () {
 });
 
 Route::get('/update', function () {
-    $version = Option::where('key', 'version')->value('value') ?? 5.4;
+    // Increase execution time limit for update operations
+    set_time_limit(300); // 5 minutes
+    
+    try {
+        $version = Option::where('key', 'version')->value('value') ?? 5.4;
 
-    // Run migrations if needed
-    Artisan::call('migrate');
+        // Run migrations if needed
+        Artisan::call('migrate');
 
-    if (file_exists(base_path('storage/installed'))) {
-        touch(base_path('vendor/autoload1.php'));
-    }
+        if (file_exists(base_path('storage/installed'))) {
+            touch(base_path('vendor/autoload1.php'));
+        }
 
-    if (!PaymentType::exists()) {
-        Artisan::call('db:seed', ['--class' => 'PaymentTypeSeeder']);
-    }
+        if (!PaymentType::exists()) {
+            Artisan::call('db:seed', ['--class' => 'PaymentTypeSeeder']);
+        }
 
-    if (Schema::hasTable('stocks') && !Stock::exists()) {
-        Product::chunk(500, function ($products) {
-            $data = [];
-            foreach ($products as $product) {
-                $data[] = [
-                    'business_id' => $product->business_id,
-                    'product_id'  => $product->id,
-                    'expire_date' => $product->expire_date ?? null,
-                    'productStock' => $product->productStock,
-                    'profit_percent' => $product->profit_percent,
-                    'productDealerPrice' => $product->productDealerPrice,
-                    'productPurchasePrice' => $product->productPurchasePrice,
-                    'productSalePrice' => $product->productSalePrice,
-                    'productWholeSalePrice' => $product->productWholeSalePrice,
-                    'created_at'  => $product->created_at,
-                    'updated_at'  => $product->updated_at,
-                ];
-            }
-            Stock::insert($data);
-        });
-    }
+        if (Schema::hasTable('stocks') && !Stock::exists()) {
+            Product::chunk(500, function ($products) {
+                $data = [];
+                foreach ($products as $product) {
+                    $data[] = [
+                        'business_id' => $product->business_id,
+                        'product_id'  => $product->id,
+                        'expire_date' => $product->expire_date ?? null,
+                        'productStock' => $product->productStock,
+                        'profit_percent' => $product->profit_percent,
+                        'productDealerPrice' => $product->productDealerPrice,
+                        'productPurchasePrice' => $product->productPurchasePrice,
+                        'productSalePrice' => $product->productSalePrice,
+                        'productWholeSalePrice' => $product->productWholeSalePrice,
+                        'created_at'  => $product->created_at,
+                        'updated_at'  => $product->updated_at,
+                    ];
+                }
+                Stock::insert($data);
+            });
+        }
 
-    // Run update file if version is not 5.5
-    if ($version == 5.4) {
-        $updateFile = base_path('updates/v5_5_update.php');
-        if (file_exists($updateFile)) {
-            require $updateFile;
-            if (function_exists('runUpdate')) {
-                runUpdate();
+        // Run update file if version is not 5.5
+        if ($version == 5.4) {
+            $updateFile = base_path('updates/v5_5_update.php');
+            if (file_exists($updateFile)) {
+                require $updateFile;
+                if (function_exists('runUpdate')) {
+                    runUpdate();
+                }
             }
         }
+
+        // Update version
+        Option::updateOrCreate(
+            ['key' => 'version'],
+            ['value' => '5.6.2']
+        );
+
+        // Clear caches
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+
+        return redirect('/')->with('message', __('System updated successfully.'));
+    } catch (\Exception $e) {
+        \Log::error('Update route error: ' . $e->getMessage());
+        return redirect('/')->with('error', __('Update failed: ') . $e->getMessage());
     }
-
-    // Update version
-    Option::updateOrCreate(
-        ['key' => 'version'],
-        ['value' => '5.6.2']
-    );
-
-    // Clear caches
-    Artisan::call('cache:clear');
-    Artisan::call('config:clear');
-    Artisan::call('route:clear');
-    Artisan::call('view:clear');
-
-    return redirect('/')->with('message', __('System updated successfully.'));
 });
 
 require __DIR__ . '/auth.php';

@@ -15,7 +15,7 @@ use Modules\MultiBranchAddon\App\Http\Controllers\Api as Multibranch;
 */
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
-    Route::apiResource('branches', Multibranch\AcnooBranchController::class)->except('show');
-    Route::get('/switch-branch/{id}', [Multibranch\AcnooBranchController::class, 'switchBranch']);
-    Route::get('/exit-branch/{id}', [Multibranch\AcnooBranchController::class, 'exitBranch']);
+    Route::apiResource('branches', Multibranch\TryonedigitalBranchController::class)->except('show');
+    Route::get('/switch-branch/{id}', [Multibranch\TryonedigitalBranchController::class, 'switchBranch']);
+    Route::get('/exit-branch/{id}', [Multibranch\TryonedigitalBranchController::class, 'exitBranch']);
 });

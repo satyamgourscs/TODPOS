@@ -21,13 +21,13 @@
                     <path d="M3.50488 6.5957C2.98926 6.5957 2.51838 6.46999 2.09224 6.21857C1.66611 5.96289 1.3252 5.62198 1.06951 5.19584C0.818093 4.76971 0.692383 4.29883 0.692383 3.7832C0.692383 3.26331 0.818093 2.79243 1.06951 2.37056C1.3252 1.94442 1.66611 1.60564 2.09224 1.35422C2.51838 1.09854 2.98926 0.970703 3.50488 0.970703C4.02477 0.970703 4.49565 1.09854 4.91753 1.35422C5.34366 1.60564 5.68244 1.94442 5.93386 2.37056C6.18954 2.79243 6.31738 3.26331 6.31738 3.7832C6.31738 4.29883 6.18954 4.76971 5.93386 5.19584C5.68244 5.62198 5.34366 5.96289 4.91753 6.21857C4.49565 6.46999 4.02477 6.5957 3.50488 6.5957Z" fill="black"/>
                     </svg>
                     {{__('Previously, you didn’t have a branch section. So, when you create your first branch, another branch will be created automatically using your company/business name.')}} <br>
-                    <i><span class="fw-bold">{{__('Example')}}:</span> {{__('If your company/business name is')}} <span class="fw-bold">{{__('Acnoo')}},</span> {{__('when you create your first branch, another branch will automatically be created with the name')}} <span class="fw-bold">{{__('Acnoo')}}.</span></i>
+                    <i><span class="fw-bold">{{__('Example')}}:</span> {{__('If your company/business name is')}} <span class="fw-bold">{{__('TRYONEDIGITAL')}},</span> {{__('when you create your first branch, another branch will automatically be created with the name')}} <span class="fw-bold">{{__('TRYONEDIGITAL')}}.</span></i>
                 </li>
                 <li>
                     <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.50488 6.5957C2.98926 6.5957 2.51838 6.46999 2.09224 6.21857C1.66611 5.96289 1.3252 5.62198 1.06951 5.19584C0.818093 4.76971 0.692383 4.29883 0.692383 3.7832C0.692383 3.26331 0.818093 2.79243 1.06951 2.37056C1.3252 1.94442 1.66611 1.60564 2.09224 1.35422C2.51838 1.09854 2.98926 0.970703 3.50488 0.970703C4.02477 0.970703 4.49565 1.09854 4.91753 1.35422C5.34366 1.60564 5.68244 1.94442 5.93386 2.37056C6.18954 2.79243 6.31738 3.26331 6.31738 3.7832C6.31738 4.29883 6.18954 4.76971 5.93386 5.19584C5.68244 5.62198 5.34366 5.96289 4.91753 6.21857C4.49565 6.46999 4.02477 6.5957 3.50488 6.5957Z" fill="black"/>
                     </svg>
-                    {{__('All your previous data will be assigned to the automatically created branch')}} (<span class="fw-bold">{{__('Acnoo')}}</span> {{__('in this example')}}).
+                    {{__('All your previous data will be assigned to the automatically created branch')}} (<span class="fw-bold">{{__('TRYONEDIGITAL')}}</span> {{__('in this example')}}).
                 </li>
                 <li>
                     <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">

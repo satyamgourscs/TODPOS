@@ -80,7 +80,10 @@ class AuthenticatedSessionController extends Controller
                         ], 406);
                     }
 
-                    $redirect_url = route('business.dashboard.index');
+                    // Use full base URL from .env for store login redirect
+                    $baseUrl = rtrim(config('app.url'), '/');
+                    $routePath = route('business.dashboard.index', [], false);
+                    $redirect_url = $baseUrl . '/' . ltrim($routePath, '/');
                 } else {
                     Auth::logout();
                     return response()->json([
@@ -102,7 +105,10 @@ class AuthenticatedSessionController extends Controller
             if ($module) {
                 if ($module->isEnabled()) {
 
-                    $redirect_url = route('business.dashboard.index');
+                    // Use full base URL from .env for store login redirect
+                    $baseUrl = rtrim(config('app.url'), '/');
+                    $routePath = route('business.dashboard.index', [], false);
+                    $redirect_url = $baseUrl . '/' . ltrim($routePath, '/');
                 } else {
                     Auth::logout();
                     return response()->json([

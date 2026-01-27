@@ -148,7 +148,7 @@ svg {
     overflow-x: hidden;
     opacity: 1;
     visibility: visible;
-    background: #000;
+    background: #2D334B;
     -webkit-box-shadow: 0px 0px 5px rgba(45, 51, 103, 0.15);
     -moz-box-shadow: 0px 0px 5px rgba(45, 51, 103, 0.15);
     box-shadow: 0px 0px 5px rgba(45, 51, 103, 0.15);
@@ -196,13 +196,13 @@ svg {
                     background: none;
                     &.active{
                         > a, .active{
-                            background: #C52127;
+                            background: #2196F3;
                         }
                     }
                 }
             }
             .active{
-                background: #C52127;
+                background: #2196F3;
             }
         }
     }
@@ -236,7 +236,7 @@ svg {
                 color: #fff;
             }
             >a{
-                background-color: #C52127;
+                background-color: #2196F3;
                 color: #fff !important;
             }
         }
@@ -283,7 +283,7 @@ svg {
                             transform: rotate(90deg);
                         }
                         >a{
-                            background-color: #C52127;
+                            background-color: #2196F3;
                             color: #fff !important;
                         }
                     }

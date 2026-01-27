@@ -44,7 +44,7 @@ class PurchaseReturnController extends Controller
         return view('business::purchase-returns.index', compact('purchases', 'branches'));
     }
 
-    public function acnooFilter(Request $request)
+    public function tryonedigitalFilter(Request $request)
     {
         $purchases = Purchase::with([
             'user:id,name',

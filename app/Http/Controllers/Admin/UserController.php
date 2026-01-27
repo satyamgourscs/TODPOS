@@ -28,7 +28,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function acnooFilter(Request $request)
+    public function tryonedigitalFilter(Request $request)
     {
         $users = User::whereNotIn('role', ['superadmin', 'staff', 'shop-owner'])->when(request('search'), function ($q) {
             $q->where(function ($q) {

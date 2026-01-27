@@ -44,7 +44,7 @@ class SaleReturnController extends Controller
         return view('business::sale-returns.index', compact('sales', 'branches'));
     }
 
-    public function acnooFilter(Request $request)
+    public function tryonedigitalFilter(Request $request)
     {
         $sales =  Sale::with([
             'user:id,name',

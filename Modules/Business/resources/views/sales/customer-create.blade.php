@@ -17,8 +17,8 @@
                             </div>
 
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Phone') }}</label>
-                                <input type="number" name="phone" class="form-control" placeholder="{{ __('Enter phone number') }}">
+                                <label>{{ __('Phone') }} <span class="text-danger">*</span></label>
+                                <input type="text" name="phone" required pattern="[0-9]{10}" maxlength="10" minlength="10" class="form-control" placeholder="{{ __('Enter phone number (10 digits)') }}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             </div>
 
                             <div class="col-lg-6 mb-2">

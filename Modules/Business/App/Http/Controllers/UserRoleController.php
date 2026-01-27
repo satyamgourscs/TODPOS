@@ -40,7 +40,7 @@ class UserRoleController extends Controller
         return view('business::roles.index', compact('users', 'branches'));
     }
 
-    public function acnooFilter(Request $request)
+    public function tryonedigitalFilter(Request $request)
     {
         $user = auth()->user();
 

@@ -1,9 +1,22 @@
+# PHP Configuration
+<IfModule mod_php.c>
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 256M
+</IfModule>
+
 <IfModule mod_rewrite.c>
    RewriteEngine on
-   RewriteCond %{REQUEST_URI} !^/public
-   RewriteRule ^(.*)$ /public/$1 [L]
-   RewriteCond %{REQUEST_URI} !^/public
-   RewriteRule ^(.*)$ /public/$1 [L]
+   # Skip rewriting if request already includes /todpos/public or /public
+   # This allows direct access to /todpos/public/... URLs to work correctly
+   RewriteCond %{REQUEST_URI} ^/todpos/public [OR]
+   RewriteCond %{REQUEST_URI} ^/public
+   RewriteRule ^ - [L]
+   
+   # Only redirect other requests to public folder
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
 # php -- BEGIN cPanel-generated handler, do not edit

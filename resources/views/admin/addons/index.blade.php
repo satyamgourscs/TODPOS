@@ -46,18 +46,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.addons.store') }}" method="post" enctype="multipart/form-data" class="ajaxform_instant_reload" id="addon-form">
+                <form action="{{ route('admin.addons.store') }}" method="post" enctype="multipart/form-data" class="ajaxform_instant_reload">
                     @csrf
 
                     <div>
                         <label>{{ __('Upload addons zip file') }}</label>
-                        <input type="file" name="file" id="addon-file-input" class="form-control" accept=".zip" required>
+                        <input type="file" name="file" class="form-control" accept="file/*" required>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="button-group text-center mt-5">
                             <button type="reset" class="theme-btn border-btn m-2">{{ __('Cancel') }}</button>
-                            <button type="submit" class="theme-btn m-2 submit-btn">{{ __('Install') }}</button>
+                            <button class="theme-btn m-2 submit-btn">{{ __('Install') }}</button>
                         </div>
                     </div>
                 </form>
@@ -65,16 +65,3 @@
         </div>
     </div>
 </div>
-
-@push('script')
-<script>
-    $(document).ready(function() {
-        $('#addon-file-input').on('change', function() {
-            if (this.files && this.files.length > 0) {
-                // Auto-submit the form when file is selected
-                $('#addon-form').submit();
-            }
-        });
-    });
-</script>
-@endpush

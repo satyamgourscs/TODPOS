@@ -1,14 +1,14 @@
 @extends('layouts.business.master')
 
 @section('title')
-    {{ __('Sales List') }}
+    {{ __('Create Sales Invoice') }}
 @endsection
 
 @section('main_content')
     <div class="container-fluid">
         <div class="card">
             <div class="table-header p-16">
-                <h4>{{ __('Inventory Sales') }}</h4>
+                <h4>{{ __('Create Sales Invoice') }}</h4>
             </div>
             <div class="order-form-section p-16">
                 <form action="{{ route('business.sales.store') }}" method="post" enctype="multipart/form-data"
@@ -45,9 +45,9 @@
                         </div>
 
                         <div class="col-lg-8 d-none guest_phone">
-                            <label>{{ __('Phone Number') }}</label>
-                            <input type="text" name="customer_phone" class="form-control"
-                                placeholder="{{ __('Enter Customer Phone Number') }}">
+                            <label>{{ __('Phone Number') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="customer_phone" id="customer_phone" required pattern="[0-9]{10}" maxlength="10" minlength="10" class="form-control"
+                                placeholder="{{ __('Enter Customer Phone Number (10 digits)') }}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
                         <div class="col-lg-8">
                             <label>{{ __('Select Product') }}</label>
@@ -221,7 +221,7 @@
                                         {{ currency_format(0, currency: business_currency()) }}</h6>
                                 </div>
                                 <div class="row save-amount-container  align-items-center mb-2">
-                                    <h6 class="payment-title col-6">{{ __('Vat') }}</h6>
+                                    <h6 class="payment-title col-6">{{ __('Gst') }}</h6>
                                     <div class="col-6 w-100 d-flex justify-content-between gap-2">
                                         <div class="d-flex d-flex align-items-center gap-2">
                                             <select name="vat_id" class="form-select vat_select" id='form-ware'>

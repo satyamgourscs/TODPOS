@@ -1,7 +1,7 @@
 @extends('layouts.business.master')
 
 @section('title')
-    {{ __('Vats') }}
+    {{ __('Gsts') }}
 @endsection
 
 @section('main_content')
@@ -10,10 +10,10 @@
             <div class="card shadow-sm vatlist-body">
                 <div class="">
                     <div class="table-header p-3">
-                        <h4>{{ __('Vat List') }}</h4>
+                        <h4>{{ __('Gst List') }}</h4>
                         <div>
                             @usercan('vats.create')
-                            <a href="#vat-add-modal" class="theme-btn print-btn text-light active custom-a" data-bs-toggle="modal"> <i class="fas fa-plus-circle me-1"></i> {{ __('Add New Vat') }}</a>
+                            <a href="#vat-add-modal" class="theme-btn print-btn text-light active custom-a" data-bs-toggle="modal"> <i class="fas fa-plus-circle me-1"></i> {{ __('Add New Gst') }}</a>
                             @endusercan
                         </div>
                     </div>

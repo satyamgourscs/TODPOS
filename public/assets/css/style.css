@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-    --clr-primary: #c52127;
+    --clr-primary: #2196F3;
     --clr-white: #fff;
     --clr-white2: #f9f9f9;
     --clr-white3: #f3f7ff;
@@ -371,7 +371,7 @@ svg {
     overflow-x: hidden;
     opacity: 1;
     visibility: visible;
-    background: #201415;
+    background: #2D334B;
     box-shadow: 0px 0px 5px rgba(45, 51, 103, 0.15);
     transition: all 0.4s ease;
     font-family: Inter !important;
